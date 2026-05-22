@@ -438,10 +438,15 @@
       const el = document.getElementById(id);
       if (!el) return;
       IFrameAPI.createController(el, { uri, height: 152 }, (controller) => {
+        let timer = null;
         controller.addListener('playback_update', e => {
-          if (!e.data.paused && e.data.position >= 30) {
-            controller.pause();
-            controller.seek(0);
+          const paused = e.data.isPaused !== undefined ? e.data.isPaused : e.data.paused;
+          if (!paused && !timer) {
+            timer = setTimeout(() => {
+              controller.pause();
+              controller.seek(0);
+              timer = null;
+            }, 30000);
           }
         });
       });
