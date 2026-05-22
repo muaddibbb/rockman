@@ -237,11 +237,7 @@
         <p>Themes of memory, distance, family, scars, survival, aging, isolation, redemption, and emotional endurance. Every release is designed as part of a larger emotional world rather than standalone singles.</p>
       </div>
       <div style="margin-top:1.5rem;">
-        <iframe style="border-radius:8px; border:1px solid rgba(160,130,70,0.25);"
-          src="https://open.spotify.com/embed/track/1R7r4kwgc7kWCTMdzpgd8H?utm_source=generator&theme=0"
-          width="100%" height="152" frameborder="0"
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"></iframe>
+        <div id="bn-spotify-embed" style="border-radius:8px; overflow:hidden; border:1px solid rgba(160,130,70,0.25);"></div>
       </div>
     </div>
   </div>
@@ -325,6 +321,24 @@
   <span>RockMan Universe</span> &nbsp;·&nbsp; © All rights reserved &nbsp;·&nbsp;
   <a href="mailto:rockmanyuval@gmail.com">rockmanyuval@gmail.com</a>
 </footer>
+
+<script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+<script>
+  window.onSpotifyIframeApiReady = (IFrameAPI) => {
+    const el = document.getElementById('bn-spotify-embed');
+    IFrameAPI.createController(el, {
+      uri: 'spotify:track:1R7r4kwgc7kWCTMdzpgd8H',
+      height: 152,
+    }, (controller) => {
+      controller.addListener('playback_update', e => {
+        if (!e.data.paused && e.data.position >= 30000) {
+          controller.pause();
+          controller.seek(0);
+        }
+      });
+    });
+  };
+</script>
 
 <script>
   const canvas = document.getElementById('particles');
