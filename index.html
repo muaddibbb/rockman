@@ -165,9 +165,18 @@
 
     /* YOUTUBE PREVIEWS */
     .yt-previews { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.8rem; }
-    .yt-card { display: flex; flex-direction: column; gap: 0; }
-    .yt-frame-wrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 6px 6px 0 0; border: 1px solid rgba(192,57,43,0.3); border-bottom: none; }
-    .yt-frame-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    .yt-card { display: flex; flex-direction: column; }
+    .yt-frame-wrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 6px 6px 0 0; border: 1px solid rgba(192,57,43,0.3); border-bottom: none; background: #000; }
+    .yt-frame-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+    .yt-facade { position: absolute; inset: 0; cursor: pointer; }
+    .yt-facade img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .yt-play-overlay {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.2); border: none; cursor: pointer; transition: background 0.2s;
+    }
+    .yt-play-overlay:hover { background: rgba(0,0,0,0.35); }
+    .yt-play-overlay svg { width: 56px; height: 40px; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.7)); transition: transform 0.2s; }
+    .yt-play-overlay:hover svg { transform: scale(1.1); }
     .yt-meta { display: flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.7rem; background: rgba(192,57,43,0.08); border: 1px solid rgba(192,57,43,0.3); border-top: 1px solid rgba(192,57,43,0.15); border-radius: 0 0 6px 6px; }
     .yt-views { font-family: 'Oswald', sans-serif; font-size: 0.78rem; letter-spacing: 0.06em; color: #aaa; }
 
@@ -309,24 +318,30 @@
       <div class="yt-previews">
         <div class="yt-card">
           <div class="yt-frame-wrap">
-            <iframe src="https://www.youtube.com/embed/0qBX6tpUk74" title="RockMan video 1"
-              frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen loading="lazy"></iframe>
+            <div class="yt-facade" id="yt-facade-1" data-vid="0qBX6tpUk74">
+              <img src="https://img.youtube.com/vi/0qBX6tpUk74/maxresdefault.jpg" alt="RockMan video 1" />
+              <button class="yt-play-overlay" onclick="playYT('yt-facade-1')" aria-label="Play">
+                <svg viewBox="0 0 68 48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#c0392b"/><path d="M45 24L27 14v20z" fill="#fff"/></svg>
+              </button>
+            </div>
           </div>
           <div class="yt-meta">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="color:#c0392b;flex-shrink:0"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.13-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.37.55A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.13 2.14C4.5 20.5 12 20.5 12 20.5s7.5 0 9.37-.55a3.02 3.02 0 0 0 2.13-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.75 15.52V8.48L15.5 12l-5.75 3.52z"/></svg>
-            <span id="yt-views-1" class="yt-views">—</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#c0392b" style="flex-shrink:0"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.13-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.37.55A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.13 2.14C4.5 20.5 12 20.5 12 20.5s7.5 0 9.37-.55a3.02 3.02 0 0 0 2.13-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.75 15.52V8.48L15.5 12l-5.75 3.52z"/></svg>
+            <span id="yt-views-1" class="yt-views">Loading…</span>
           </div>
         </div>
         <div class="yt-card">
           <div class="yt-frame-wrap">
-            <iframe src="https://www.youtube.com/embed/GGZQ1TYrqdc" title="RockMan video 2"
-              frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen loading="lazy"></iframe>
+            <div class="yt-facade" id="yt-facade-2" data-vid="GGZQ1TYrqdc">
+              <img src="https://img.youtube.com/vi/GGZQ1TYrqdc/maxresdefault.jpg" alt="RockMan video 2" />
+              <button class="yt-play-overlay" onclick="playYT('yt-facade-2')" aria-label="Play">
+                <svg viewBox="0 0 68 48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#c0392b"/><path d="M45 24L27 14v20z" fill="#fff"/></svg>
+              </button>
+            </div>
           </div>
           <div class="yt-meta">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="color:#c0392b;flex-shrink:0"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.13-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.37.55A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.13 2.14C4.5 20.5 12 20.5 12 20.5s7.5 0 9.37-.55a3.02 3.02 0 0 0 2.13-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.75 15.52V8.48L15.5 12l-5.75 3.52z"/></svg>
-            <span id="yt-views-2" class="yt-views">—</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#c0392b" style="flex-shrink:0"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.13-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.37.55A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.13 2.14C4.5 20.5 12 20.5 12 20.5s7.5 0 9.37-.55a3.02 3.02 0 0 0 2.13-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.75 15.52V8.48L15.5 12l-5.75 3.52z"/></svg>
+            <span id="yt-views-2" class="yt-views">Loading…</span>
           </div>
         </div>
       </div>
@@ -359,21 +374,56 @@
 </footer>
 
 <script>
+  function playYT(facadeId) {
+    const facade = document.getElementById(facadeId);
+    const vid = facade.dataset.vid;
+    const wrap = facade.parentElement;
+    const iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube.com/embed/' + vid + '?autoplay=1&rel=0';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    iframe.allowFullscreen = true;
+    iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:none;';
+    wrap.innerHTML = '';
+    wrap.appendChild(iframe);
+  }
+
+  const YT_INSTANCES = [
+    'https://invidious.privacydev.net',
+    'https://invidious.kavin.rocks',
+    'https://yt.cdaut.de',
+  ];
+
   async function fetchYTViews(videoId, elId) {
+    for (const inst of YT_INSTANCES) {
+      try {
+        const res = await fetch(inst + '/api/v1/videos/' + videoId + '?fields=viewCount', {signal: AbortSignal.timeout(4000)});
+        if (!res.ok) continue;
+        const data = await res.json();
+        const n = data.viewCount;
+        if (!n) continue;
+        const fmt = n >= 1000000 ? (n/1000000).toFixed(1) + 'M views'
+                  : n >= 1000    ? Math.floor(n/1000) + 'K views'
+                  : n + ' views';
+        document.getElementById(elId).textContent = fmt;
+        return;
+      } catch(e) { continue; }
+    }
+    // Fallback: allorigins proxy
     try {
       const proxy = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://www.youtube.com/watch?v=' + videoId);
       const res = await fetch(proxy);
       const data = await res.json();
-      const match = data.contents.match(/"viewCount":"(\d+)"/);
-      if (match) {
-        const n = parseInt(match[1]);
+      const m = data.contents.match(/"viewCount":"(\d+)"/);
+      if (m) {
+        const n = parseInt(m[1]);
         const fmt = n >= 1000000 ? (n/1000000).toFixed(1) + 'M views'
                   : n >= 1000    ? Math.floor(n/1000) + 'K views'
                   : n + ' views';
         document.getElementById(elId).textContent = fmt;
       }
-    } catch(e) {}
+    } catch(e) { document.getElementById(elId).textContent = ''; }
   }
+
   fetchYTViews('0qBX6tpUk74', 'yt-views-1');
   fetchYTViews('GGZQ1TYrqdc', 'yt-views-2');
 </script>
