@@ -267,6 +267,9 @@
         <p>Fake Bangers is a fictional AI-powered "cover band" that takes iconic songs and completely rebuilds them in unexpected musical styles. Both a tribute and a satire of modern music culture — exploring what happens when familiar songs are pushed into entirely different emotional worlds.</p>
         <p>The project openly embraces AI as part of the creative process while focusing on arrangement, atmosphere, reinterpretation, and entertainment.</p>
       </div>
+      <div style="margin-top:1.5rem;">
+        <div id="fb-spotify-embed" style="border-radius:8px; overflow:hidden; border:1px solid rgba(180,40,40,0.3);"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -325,16 +328,20 @@
 <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
 <script>
   window.onSpotifyIframeApiReady = (IFrameAPI) => {
-    const el = document.getElementById('bn-spotify-embed');
-    IFrameAPI.createController(el, {
-      uri: 'spotify:track:1R7r4kwgc7kWCTMdzpgd8H',
-      height: 152,
-    }, (controller) => {
-      controller.addListener('playback_update', e => {
-        if (!e.data.paused && e.data.position >= 30000) {
-          controller.pause();
-          controller.seek(0);
-        }
+    const tracks = [
+      { id: 'bn-spotify-embed', uri: 'spotify:track:1R7r4kwgc7kWCTMdzpgd8H' },
+      { id: 'fb-spotify-embed', uri: 'spotify:track:49bIKk07SJ3ovqpKyUHTa7' },
+    ];
+    tracks.forEach(({ id, uri }) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      IFrameAPI.createController(el, { uri, height: 152 }, (controller) => {
+        controller.addListener('playback_update', e => {
+          if (!e.data.paused && e.data.position >= 30000) {
+            controller.pause();
+            controller.seek(0);
+          }
+        });
       });
     });
   };
