@@ -163,11 +163,20 @@
     footer a { color: var(--red); text-decoration: none; }
     footer span { color: var(--red); }
 
+    /* YOUTUBE PREVIEWS */
+    .yt-previews { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.8rem; }
+    .yt-card { display: flex; flex-direction: column; gap: 0; }
+    .yt-frame-wrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 6px 6px 0 0; border: 1px solid rgba(192,57,43,0.3); border-bottom: none; }
+    .yt-frame-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    .yt-meta { display: flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.7rem; background: rgba(192,57,43,0.08); border: 1px solid rgba(192,57,43,0.3); border-top: 1px solid rgba(192,57,43,0.15); border-radius: 0 0 6px 6px; }
+    .yt-views { font-family: 'Oswald', sans-serif; font-size: 0.78rem; letter-spacing: 0.06em; color: #aaa; }
+
     @media (max-width: 768px) {
       .artist-inner { grid-template-columns: 1fr; gap: 2.5rem; }
       .artist-inner.reverse { direction: ltr; }
       nav { gap: 1.2rem; flex-wrap: wrap; }
       .bn-banner { height: 120px; }
+      .yt-previews { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -297,6 +306,30 @@
         <p>RockMan is a music and training concept built around the connection between movement, discipline, and heavy music. The channel combines original AI-assisted music production with real training logic, creating structured workout experiences instead of random playlists.</p>
         <p>Each session is designed with purpose — whether for strength training, running, rowing, HIIT, warm-up, cycling, warrior training, rugby, or mental focus.</p>
       </div>
+      <div class="yt-previews">
+        <div class="yt-card">
+          <div class="yt-frame-wrap">
+            <iframe src="https://www.youtube.com/embed/0qBX6tpUk74" title="RockMan video 1"
+              frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen loading="lazy"></iframe>
+          </div>
+          <div class="yt-meta">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="color:#c0392b;flex-shrink:0"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.13-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.37.55A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.13 2.14C4.5 20.5 12 20.5 12 20.5s7.5 0 9.37-.55a3.02 3.02 0 0 0 2.13-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.75 15.52V8.48L15.5 12l-5.75 3.52z"/></svg>
+            <span id="yt-views-1" class="yt-views">—</span>
+          </div>
+        </div>
+        <div class="yt-card">
+          <div class="yt-frame-wrap">
+            <iframe src="https://www.youtube.com/embed/GGZQ1TYrqdc" title="RockMan video 2"
+              frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen loading="lazy"></iframe>
+          </div>
+          <div class="yt-meta">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="color:#c0392b;flex-shrink:0"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.13-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.37.55A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.13 2.14C4.5 20.5 12 20.5 12 20.5s7.5 0 9.37-.55a3.02 3.02 0 0 0 2.13-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.75 15.52V8.48L15.5 12l-5.75 3.52z"/></svg>
+            <span id="yt-views-2" class="yt-views">—</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -325,6 +358,25 @@
   <a href="mailto:rockmanyuval@gmail.com">rockmanyuval@gmail.com</a>
 </footer>
 
+<script>
+  async function fetchYTViews(videoId, elId) {
+    try {
+      const proxy = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://www.youtube.com/watch?v=' + videoId);
+      const res = await fetch(proxy);
+      const data = await res.json();
+      const match = data.contents.match(/"viewCount":"(\d+)"/);
+      if (match) {
+        const n = parseInt(match[1]);
+        const fmt = n >= 1000000 ? (n/1000000).toFixed(1) + 'M views'
+                  : n >= 1000    ? Math.floor(n/1000) + 'K views'
+                  : n + ' views';
+        document.getElementById(elId).textContent = fmt;
+      }
+    } catch(e) {}
+  }
+  fetchYTViews('0qBX6tpUk74', 'yt-views-1');
+  fetchYTViews('GGZQ1TYrqdc', 'yt-views-2');
+</script>
 <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
 <script>
   window.onSpotifyIframeApiReady = (IFrameAPI) => {
