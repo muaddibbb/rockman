@@ -439,7 +439,7 @@
       if (!el) return;
       IFrameAPI.createController(el, { uri, height: 152 }, (controller) => {
         controller.addListener('playback_update', e => {
-          if (!e.data.paused && e.data.position >= 30000) {
+          if (!e.data.paused && e.data.position >= 30) {
             controller.pause();
             controller.seek(0);
           }
